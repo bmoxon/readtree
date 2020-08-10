@@ -266,3 +266,306 @@ against a single backend volume
 ```
 parallel -j 10 readtree <args> /mnt/vol1
 ```
+
+## Wrapper scripts
+
+Wrapper scripts can be created to run the scaled up/out scenarios.  An
+example is at test/bench.sh that "ramps" across 1, 2, and 4 threads for
+both tree generation (removing the created trees in between) and reads
+(in this case, purging the disk buffer cache between iterations).
+
+
+```
+$ ./bench.sh vs-test /vagrant/hpc-clone/rt-data/vs
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+[0][1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333
+
+Gentree: 1 threads
+
+Gentree: nFiles = 6400, nBytes =1912113
+         cumulative procTime =    2.025
+         elapsed time():    2.131 secs
+         write rate = 3002 objs/s
+
+         min latency = 166 us
+         max latency = 5748 us
+         avg latency = 316 us
+         2ms+ latency count = 5
+
+         latency hist[0..1999] = 6395
+         latency hist[2000..3999] = 3
+         latency hist[4000..5999] = 2
+         latency hist[6000..7999] = 0
+         latency hist[8000..9999] = 0
+         latency hist[10000..11999] = 0
+         latency hist[12000..13999] = 0
+         latency hist[14000..15999] = 0
+         latency hist[16000..17999] = 0
+         latency hist[18000..19999] = 0
+         latency hist[20000..21999] = 0
+         latency hist[22000..23999] = 0
+         latency hist[24000..25999] = 0
+         latency hist[26000..27999] = 0
+         latency hist[28000..29999] = 0
+         latency hist[30000..31999] = 0
+         latency hist[32000..33999] = 0
+         latency hist[34000..35999] = 0
+         latency hist[36000..37999] = 0
+         latency hist[38000..39999] = 0
+Done ... exiting
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+[0][1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333
+
+Gentree: 2 threads
+
+Gentree: nFiles = 6400, nBytes =1910495
+         cumulative procTime =    2.914
+         elapsed time():    1.490 secs
+         write rate = 4296 objs/s
+
+         min latency = 174 us
+         max latency = 5155 us
+         avg latency = 455 us
+         2ms+ latency count = 39
+
+         latency hist[0..1999] = 6361
+         latency hist[2000..3999] = 35
+         latency hist[4000..5999] = 4
+         latency hist[6000..7999] = 0
+         latency hist[8000..9999] = 0
+         latency hist[10000..11999] = 0
+         latency hist[12000..13999] = 0
+         latency hist[14000..15999] = 0
+         latency hist[16000..17999] = 0
+         latency hist[18000..19999] = 0
+         latency hist[20000..21999] = 0
+         latency hist[22000..23999] = 0
+         latency hist[24000..25999] = 0
+         latency hist[26000..27999] = 0
+         latency hist[28000..29999] = 0
+         latency hist[30000..31999] = 0
+         latency hist[32000..33999] = 0
+         latency hist[34000..35999] = 0
+         latency hist[36000..37999] = 0
+         latency hist[38000..39999] = 0
+Done ... exiting
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+[0][1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333[1][2]3333[2]3333[2]3333[2]3333
+
+Gentree: 4 threads
+
+Gentree: nFiles = 6400, nBytes =1920722
+         cumulative procTime =    4.311
+         elapsed time():    1.092 secs
+         write rate = 5860 objs/s
+
+         min latency = 193 us
+         max latency = 6537 us
+         avg latency = 673 us
+         2ms+ latency count = 24
+
+         latency hist[0..1999] = 6376
+         latency hist[2000..3999] = 20
+         latency hist[4000..5999] = 3
+         latency hist[6000..7999] = 1
+         latency hist[8000..9999] = 0
+         latency hist[10000..11999] = 0
+         latency hist[12000..13999] = 0
+         latency hist[14000..15999] = 0
+         latency hist[16000..17999] = 0
+         latency hist[18000..19999] = 0
+         latency hist[20000..21999] = 0
+         latency hist[22000..23999] = 0
+         latency hist[24000..25999] = 0
+         latency hist[26000..27999] = 0
+         latency hist[28000..29999] = 0
+         latency hist[30000..31999] = 0
+         latency hist[32000..33999] = 0
+         latency hist[34000..35999] = 0
+         latency hist[36000..37999] = 0
+         latency hist[38000..39999] = 0
+Done ... exiting
+vm.drop_caches = 3
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+readtree: reading contents of 10000 randomly selected files
+          in each of 1 threads
+...
+pthread_join complete
+
+Readtree: nMeta = 0, nFiles = 10000, nBytes = 3013219
+          cumulative procTime =    2.427
+          elapsed time():    3.259 secs
+          read rate = 3068 objs/s
+
+          min latency = 84 us
+          max latency = 2488 us
+          avg latency = 242 us
+          2ms+ latency count = 2
+
+          latency hist[0..1999] = 9998
+          latency hist[2000..3999] = 2
+          latency hist[4000..5999] = 0
+          latency hist[6000..7999] = 0
+          latency hist[8000..9999] = 0
+          latency hist[10000..11999] = 0
+          latency hist[12000..13999] = 0
+          latency hist[14000..15999] = 0
+          latency hist[16000..17999] = 0
+          latency hist[18000..19999] = 0
+          latency hist[20000..21999] = 0
+          latency hist[22000..23999] = 0
+          latency hist[24000..25999] = 0
+          latency hist[26000..27999] = 0
+          latency hist[28000..29999] = 0
+          latency hist[30000..31999] = 0
+          latency hist[32000..33999] = 0
+          latency hist[34000..35999] = 0
+          latency hist[36000..37999] = 0
+          latency hist[38000..39999] = 0
+
+Data check ...
+[ 0]: /vagrant/hpc-clone/rt-data/rt/02/01/03/00000006.dat (385)
+[ 1]: /vagrant/hpc-clone/rt-data/rt/03/02/03/00000030.dat (342)
+[ 2]: /vagrant/hpc-clone/rt-data/rt/01/03/03/00000027.dat (399)
+[ 3]: /vagrant/hpc-clone/rt-data/rt/02/02/02/00000058.dat (299)
+[ 4]: /vagrant/hpc-clone/rt-data/rt/03/03/00/00000085.dat (426)
+[ 5]: /vagrant/hpc-clone/rt-data/rt/00/03/00/00000000.dat (430)
+[ 6]: /vagrant/hpc-clone/rt-data/rt/03/03/03/00000053.dat (329)
+[ 7]: /vagrant/hpc-clone/rt-data/rt/03/00/02/00000005.dat (304)
+[ 8]: /vagrant/hpc-clone/rt-data/rt/03/02/02/00000090.dat (150)
+[ 9]: /vagrant/hpc-clone/rt-data/rt/03/00/00/00000076.dat (439)
+[10]: /vagrant/hpc-clone/rt-data/rt/02/03/00/00000006.dat (158)
+[11]: /vagrant/hpc-clone/rt-data/rt/00/03/03/00000067.dat (244)
+[12]: /vagrant/hpc-clone/rt-data/rt/03/00/00/00000050.dat (313)
+[13]: /vagrant/hpc-clone/rt-data/rt/01/00/02/00000084.dat (240)
+[14]: /vagrant/hpc-clone/rt-data/rt/01/00/02/00000035.dat (405)
+Freeing thread structs
+Freeing global arrays
+Done ... exiting
+vm.drop_caches = 3
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+readtree: reading contents of 5000 randomly selected files
+          in each of 2 threads
+...
+pthread_join complete
+
+Readtree: nMeta = 0, nFiles = 10000, nBytes = 2987527
+          cumulative procTime =    2.717
+          elapsed time():    1.806 secs
+          read rate = 5538 objs/s
+
+          min latency = 69 us
+          max latency = 2170 us
+          avg latency = 271 us
+          2ms+ latency count = 4
+
+          latency hist[0..1999] = 9996
+          latency hist[2000..3999] = 4
+          latency hist[4000..5999] = 0
+          latency hist[6000..7999] = 0
+          latency hist[8000..9999] = 0
+          latency hist[10000..11999] = 0
+          latency hist[12000..13999] = 0
+          latency hist[14000..15999] = 0
+          latency hist[16000..17999] = 0
+          latency hist[18000..19999] = 0
+          latency hist[20000..21999] = 0
+          latency hist[22000..23999] = 0
+          latency hist[24000..25999] = 0
+          latency hist[26000..27999] = 0
+          latency hist[28000..29999] = 0
+          latency hist[30000..31999] = 0
+          latency hist[32000..33999] = 0
+          latency hist[34000..35999] = 0
+          latency hist[36000..37999] = 0
+          latency hist[38000..39999] = 0
+
+Data check ...
+[ 0]: /vagrant/hpc-clone/rt-data/rt/00/01/02/00000040.dat (439)
+[ 1]: /vagrant/hpc-clone/rt-data/rt/00/03/00/00000050.dat (407)
+[ 2]: /vagrant/hpc-clone/rt-data/rt/03/02/02/00000076.dat (310)
+[ 3]: /vagrant/hpc-clone/rt-data/rt/02/02/02/00000081.dat (235)
+[ 4]: /vagrant/hpc-clone/rt-data/rt/00/00/01/00000087.dat (270)
+[ 5]: /vagrant/hpc-clone/rt-data/rt/00/00/00/00000060.dat (276)
+[ 6]: /vagrant/hpc-clone/rt-data/rt/00/00/00/00000053.dat (347)
+[ 7]: /vagrant/hpc-clone/rt-data/rt/00/02/02/00000062.dat (413)
+[ 8]: /vagrant/hpc-clone/rt-data/rt/03/01/02/00000073.dat (321)
+[ 9]: /vagrant/hpc-clone/rt-data/rt/02/00/03/00000088.dat (383)
+[10]: /vagrant/hpc-clone/rt-data/rt/00/00/01/00000096.dat (354)
+[11]: /vagrant/hpc-clone/rt-data/rt/03/01/02/00000021.dat (199)
+[12]: /vagrant/hpc-clone/rt-data/rt/03/02/02/00000061.dat (167)
+[13]: /vagrant/hpc-clone/rt-data/rt/02/02/03/00000007.dat (224)
+[14]: /vagrant/hpc-clone/rt-data/rt/00/01/00/00000030.dat (205)
+Freeing thread structs
+Freeing global arrays
+Done ... exiting
+vm.drop_caches = 3
+Got nlevels = 3, fanout = 4
+    nfilesnode = 0, nfilesleaf = 100
+    filesizemu = 300, filesizesd = 100
+readtree: reading contents of 2500 randomly selected files
+          in each of 4 threads
+...
+pthread_join complete
+
+Readtree: nMeta = 0, nFiles = 10000, nBytes = 3022270
+          cumulative procTime =    4.001
+          elapsed time():    1.446 secs
+          read rate = 6916 objs/s
+
+          min latency = 67 us
+          max latency = 7206 us
+          avg latency = 400 us
+          2ms+ latency count = 10
+
+          latency hist[0..1999] = 9990
+          latency hist[2000..3999] = 6
+          latency hist[4000..5999] = 3
+          latency hist[6000..7999] = 1
+          latency hist[8000..9999] = 0
+          latency hist[10000..11999] = 0
+          latency hist[12000..13999] = 0
+          latency hist[14000..15999] = 0
+          latency hist[16000..17999] = 0
+          latency hist[18000..19999] = 0
+          latency hist[20000..21999] = 0
+          latency hist[22000..23999] = 0
+          latency hist[24000..25999] = 0
+          latency hist[26000..27999] = 0
+          latency hist[28000..29999] = 0
+          latency hist[30000..31999] = 0
+          latency hist[32000..33999] = 0
+          latency hist[34000..35999] = 0
+          latency hist[36000..37999] = 0
+          latency hist[38000..39999] = 0
+
+Data check ...
+[ 0]: /vagrant/hpc-clone/rt-data/rt/02/00/00/00000013.dat (287)
+[ 1]: /vagrant/hpc-clone/rt-data/rt/00/03/01/00000054.dat (163)
+[ 2]: /vagrant/hpc-clone/rt-data/rt/00/01/02/00000009.dat (395)
+[ 3]: /vagrant/hpc-clone/rt-data/rt/01/00/00/00000047.dat (299)
+[ 4]: /vagrant/hpc-clone/rt-data/rt/02/00/02/00000095.dat (432)
+[ 5]: /vagrant/hpc-clone/rt-data/rt/01/00/03/00000002.dat (444)
+[ 6]: /vagrant/hpc-clone/rt-data/rt/01/02/00/00000037.dat (395)
+[ 7]: /vagrant/hpc-clone/rt-data/rt/01/01/02/00000093.dat (326)
+[ 8]: /vagrant/hpc-clone/rt-data/rt/01/01/00/00000019.dat (192)
+[ 9]: /vagrant/hpc-clone/rt-data/rt/03/00/03/00000028.dat (259)
+[10]: /vagrant/hpc-clone/rt-data/rt/02/00/02/00000076.dat (197)
+[11]: /vagrant/hpc-clone/rt-data/rt/02/03/03/00000056.dat (185)
+[12]: /vagrant/hpc-clone/rt-data/rt/03/00/02/00000051.dat (320)
+[13]: /vagrant/hpc-clone/rt-data/rt/00/03/00/00000098.dat (249)
+[14]: /vagrant/hpc-clone/rt-data/rt/02/02/03/00000057.dat (342)
+Freeing thread structs
+Freeing global arrays
+Done ... exiting
+```
