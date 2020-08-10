@@ -6,8 +6,10 @@ Simple filetree create/read tool
 readtree is a simple tool for generating file data in a large file tree
 and reading it. It includes two basic tools:
 
+```
 . gentree: generate a file tree at the specified path
 . readtree: randomly read a set of files from the specified path
+```
 
 ### config file
 
@@ -40,6 +42,7 @@ Usage (Files): gentree [-t <nthreads>] -c <cfgfilename> [-f] <rootpath>
 This creates a file tree rooted at <rootpath> with a directory/file
 structure as described by the config file.  A simple example, fs_10.cfg:
 
+```
 # fs_10.cfg
 NLEVELS	1
 FANOUT	2
@@ -47,6 +50,7 @@ NFILESNODE	0
 NFILESLEAF	5
 FILESIZEMU	300
 FILESIZESD	100
+```
 
 will create 1 toplevel directory with 2 subdirectories (fanout = 2), each
 of which has 5 files in it.  Files will have a randomized size around
@@ -127,12 +131,14 @@ FILESIZESD	1K
 
 will generate a tree with:
 
+```
 . 3 directory levels, e.g. 00/00/00
 . fanout of 4 - 4 directories in each parent directory at each level, e.g.
     00/00/00, 00/00/01, 00/00/02, 00/00/03, 00/01/00, 00/01/01, ...
 . 20 files in each non-leaf directory
 . 100 files in each of the leaf directories (i.e. 3 levels down)
 . average file size 3K bytes, std deviation of file size 1K
+```
 
 ### readtree
 
@@ -242,15 +248,21 @@ arbitrarily scaled workloads against one or more target volumes or servers.
 For example, N copies of gentree can be aimed at a single backend volume
 with each gentree generating its own tree:
 
+```
 parallel -j 10 gentree <args> /mnt/vol/d{} ::: {1..10}
+```
 
 N copies can be aimed at multiple backend volumes (e.g. in a parallel file
 system exposing multiple volumes in a distributed fashion across backend
 servers):
 
+```
 parallel -j 10 gentree <args> /mnt/vol{} ::: {1..10}
+```
 
 readtree operations could be similarly distributed, or could be concentrated
 against a single backend volume
 
+```
 parallel -j 10 readtree <args> /mnt/vol1
+```
